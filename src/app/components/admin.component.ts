@@ -1,0 +1,61 @@
+import { Component, inject } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { ApiGatewayService } from '../services/api-gateway.service';
+
+@Component({
+  selector: 'app-admin',
+  standalone: true,
+  imports: [CommonModule],
+  template: `
+    <div class="container" style="padding-top: 2rem; padding-bottom: 3rem;">
+      <h1 class="brand-font" style="font-size: 2rem; margin-bottom: 0.5rem;">System Admin Dashboard</h1>
+      <p style="color: var(--text-muted); margin-bottom: 2rem;">Overview of all microservice operations across the platform</p>
+
+      <div class="grid grid-cols-4" style="margin-bottom: 2rem;">
+        <div class="card">
+          <span style="font-size: 0.85rem; color: var(--text-muted);">Total Companies</span>
+          <h2 style="margin-top: 0.5rem;">{{ api.companies().length }}</h2>
+        </div>
+        <div class="card">
+          <span style="font-size: 0.85rem; color: var(--text-muted);">Policies Issued</span>
+          <h2 style="margin-top: 0.5rem; color: var(--primary);">{{ api.policies().length }}</h2>
+        </div>
+        <div class="card">
+          <span style="font-size: 0.85rem; color: var(--text-muted);">Claims Processed</span>
+          <h2 style="margin-top: 0.5rem; color: var(--success);">{{ api.claims().length }}</h2>
+        </div>
+        <div class="card">
+          <span style="font-size: 0.85rem; color: var(--text-muted);">Payments Completed</span>
+          <h2 style="margin-top: 0.5rem; color: var(--warning);">{{ api.payments().length }}</h2>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>Live Microservice Transactions</h3>
+        <table class="table" style="margin-top: 1rem;">
+          <thead>
+            <tr>
+              <th>Type</th>
+              <th>Reference ID</th>
+              <th>Amount</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (pm of api.payments(); track pm.id) {
+              <tr>
+                <td>{{ pm.paymentType }}</td>
+                <td>{{ pm.referenceId }}</td>
+                <td>₹{{ pm.amount }}</td>
+                <td><span class="badge badge-success">{{ pm.status }}</span></td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
+  `
+})
+export class AdminComponent {
+  api = inject(ApiGatewayService);
+}
