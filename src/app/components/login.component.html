@@ -1,0 +1,28 @@
+<div style="max-width: 450px; margin: 4rem auto;" class="card">
+  <h2 style="margin-bottom: 0.5rem; text-align: center;">Sign in to Portal</h2>
+  <p style="color: var(--text-muted); text-align: center; margin-bottom: 2rem; font-size: 0.9rem;">
+    Access your role-based microservices workspace
+  </p>
+
+  <div class="form-group">
+    <label class="form-label">Email Address</label>
+    <input type="email" class="form-control" [(ngModel)]="email" placeholder="demo@stagwell.in" />
+  </div>
+
+  <div class="form-group" style="margin-bottom: 2rem;">
+    <label class="form-label">Password</label>
+    <input type="password" class="form-control" value="Password123!" readonly />
+  </div>
+
+  <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+    <button class="btn btn-primary" style="width: 100%;" (click)="api.login(email, 'Employer')">
+      Login as Employer
+    </button>
+    <button class="btn btn-outline" style="width: 100%;" (click)="api.login(email, 'Surveyor')">
+      Login as Surveyor
+    </button>
+    <button class="btn btn-outline" style="width: 100%;" (click)="api.login(email, 'Admin')">
+      Login as Admin
+    </button>
+  </div>
+</div>

@@ -6,57 +6,8 @@ import { ApiGatewayService } from '../services/api-gateway.service';
   selector: 'app-surveyor',
   standalone: true,
   imports: [CommonModule],
-  template: `
-    <div class="container" style="padding-top: 2rem; padding-bottom: 3rem;">
-      <h1 class="brand-font" style="font-size: 2rem; margin-bottom: 0.5rem;">Surveyor Queue</h1>
-      <p style="color: var(--text-muted); margin-bottom: 2rem;">Review and verify claims raised by employers</p>
-
-      <div class="card">
-        <h3>Pending Claim Verification Queue</h3>
-        @if (api.claims().length === 0) {
-          <p style="color: var(--text-muted); margin-top: 1rem;">No claims in review queue.</p>
-        } @else {
-          <table class="table" style="margin-top: 1rem;">
-            <thead>
-              <tr>
-                <th>Incident</th>
-                <th>Claimed Amount</th>
-                <th>Status</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              @for (c of api.claims(); track c.id) {
-                <tr>
-                  <td>{{ c.incidentDescription }}</td>
-                  <td>₹{{ c.claimedAmount }}</td>
-                  <td>
-                    <span class="badge" [ngClass]="{
-                      'badge-warning': c.status === 'PendingReview',
-                      'badge-success': c.status === 'Approved' || c.status === 'Paid',
-                      'badge-primary': c.status === 'Rejected'
-                    }">{{ c.status }}</span>
-                  </td>
-                  <td>
-                    @if (c.status === 'PendingReview') {
-                      <div style="display: flex; gap: 0.5rem;">
-                        <button class="btn btn-success" (click)="review(c.id, true)">Approve</button>
-                        <button class="btn btn-danger" (click)="review(c.id, false)">Reject</button>
-                      </div>
-                    } @else if (c.status === 'Approved') {
-                      <button class="btn btn-primary" (click)="payClaim(c)">Process Payout</button>
-                    } @else {
-                      <span>-</span>
-                    }
-                  </td>
-                </tr>
-              }
-            </tbody>
-          </table>
-        }
-      </div>
-    </div>
-  `
+  templateUrl: './surveyor.component.html',
+  styleUrls: ['./surveyor.component.css']
 })
 export class SurveyorComponent {
   api = inject(ApiGatewayService);
